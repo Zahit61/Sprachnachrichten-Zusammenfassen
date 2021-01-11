@@ -1,5 +1,6 @@
 import socket 
 import threading
+#from oggwav import convert_ogg_to_wav
 
 HEADER = 64
 PORT = 8080
@@ -26,7 +27,7 @@ def handle_client(conn, addr):
             print(f"[{addr}] {msg}")
             conn.send("Msg received".encode(FORMAT))
 
-    #conn.close()
+    conn.close()
         
 
 def start():
@@ -34,25 +35,36 @@ def start():
     print(f"[LISTENING] Server is listening on {SERVER}")
     while (True):
         conn, addr = server.accept()
-        thread = threading.Thread(target=handle_client, args=(conn, addr))
-        thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
-        print("Hey Test")
+        #conn, addr = server.accept()
+        #thread = threading.Thread(target=handle_client, args=(conn, addr))
+        #thread.start()
+        #print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+        #print("Hey Test")
         #filename = input(str("Please enter a filename for the incoming file : "))
-        file = open("text.rtf", 'wb')
-        print("Teil1")
+        
+        """file = open("test.ogg", 'ab')
+        #print("Teil1")
 
-        file_data = server.recv(1024)
-        print("Teil2")
+        file_data = conn.recv(24000).decode(hex)
+        #print(file_data)
+        conn.send("Msg received".encode(FORMAT))
 
         file.write(file_data)
-        print("Teil3")
+        #print("Teil3")
 
         file.close()
-        print("File has been received successfully.")
+        #print("File has been received successfully.")"""
 
-print("[STARTING] server is starting...")
+        with open('test.ogg','wb') as f:
+            while True:
+                l = conn.recv(1024)
+                if not l: break
+                f.write(l)
+        conn.close()
+
+
+        
+#print("[STARTING] server is starting...")
 start()
-        
 
-        
+#convert_ogg_to_wav()
