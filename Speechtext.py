@@ -66,7 +66,7 @@ def speechtext():
     "key" : secret_key,
     "task" : task,
     "output" : "srt",
-    #"max_caption_words" : 200
+    "max_caption_words" : 200
   }
 
   subtitles = get_results(config)
