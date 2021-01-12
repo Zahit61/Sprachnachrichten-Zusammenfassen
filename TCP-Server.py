@@ -1,6 +1,7 @@
 import socket 
 import threading
 from Speechtext import speechtext as st
+from NLP import npl
 
 HEADER = 64
 PORT = 8080
@@ -30,5 +31,11 @@ start()
 
 print("Läuft...")
 
-text = str(st())
-print(text)
+text = st() #funktionsaufruf speechtext
+
+newText = text.split("\n") #einzelne Zeilen in Arrays packen
+cola = str(newText[2]) #dritte Stelle aus dem Array speichern
+print("der Print Cola")
+print(cola) #funktioniert.
+
+npl(cola)
