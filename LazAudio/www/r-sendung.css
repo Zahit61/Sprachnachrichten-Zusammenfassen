@@ -5,7 +5,7 @@ html, body {
     width: 100%;
 }
 
-html{ 
+html { 
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
     font-size: 15px; 
     font-style: normal;
@@ -14,6 +14,22 @@ html{
 header {
     width: 100%;
     height: auto;
+}
+
+header p{
+    margin-block-start: 32px;
+    margin-left: 32px;
+    font-size: 21px;
+}
+
+header button {
+    height: 32px;
+    width: auto;
+    background-color: #450404;
+    border: 0px;
+    float: left;
+    margin-top: 26.5px;
+    margin-left: 6px;
 }
 
 body {
@@ -27,7 +43,7 @@ footer {
     height: 140px;
 }
 
-footer button{
+footer button {
     height: 100%;
     width: 33.3%;
     margin: 0;
@@ -37,22 +53,47 @@ footer button{
 }
 
 footer button img {
+    margin-top: 22px;
     height: 38px;
     width: auto;
 }
 
-footer button p{
+footer button p {
     color: #9F5454;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
     font-size: 15px; 
     font-style: normal;
 }
 
-.ausgabe {
+section { 
     background-color: #9F5454;
     margin-top: 32px;
     margin-left: 32px;
+    margin-right: 32px;
+    text-align: auto;
     width: auto;
     height: auto;
+    border-radius: 8px;
 }
+
+section span p { 
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 0px;
+}
+
+section button{
+    border-width: 0px;
+    height: 40px;
+    border-bottom-left-radius:8px ;
+}
+
+section div {
+    height: 40px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
 
