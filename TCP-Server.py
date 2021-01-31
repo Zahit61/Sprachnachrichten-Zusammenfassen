@@ -1,41 +1,62 @@
+#import of the necessary modules and the API functions
 import socket 
-import threading
-from Speechtext import speechtext as st
+from speechText import speechtext as st
 from NLP import npl
 
-HEADER = 64
+#declaration of the port and adress for the communication
 PORT = 8080
 SERVER = "127.0.0.1"
 ADDR = (SERVER, PORT)
-FORMAT = 'utf-8'
-DISCONNECT_MESSAGE = "!DISCONNECT"
 
+#initiate the TCP-Socket connection
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(ADDR)        
+server.bind(ADDR)
 
+#declaration of the start function which is listening for an connection and write received in working file
 def start():
-    server.listen()
-    print(f"[LISTENING] Server is listening on {SERVER}")
-    
-    conn, addr = server.accept()
-    with open('test.ogg','wb') as f:
-        print(addr)
-        while True:
-            l = conn.recv(1024)
-            if not l: break
-            f.write(l)
-    conn.close()
 
-print("[STARTING] server is starting...")
+    print("[STARTING] Server is starting...")  
+    server.listen()  
+    print(f"[LISTENING] Server is listening on {ADDR}")   
+    conn, addr = server.accept()
+    with open('received.ogg','wb') as f:
+        print(f"Server is receiving data from {addr}")
+        while True:
+            l = bytearray(conn.recv(1024))
+            f.write(bytes(l))
+            if not l: break
+
+#call of the start function
 start()
 
-print("Läuft...")
+print("Verarbeitung läuft...")
 
-text = st() #funktionsaufruf speechtext
+#call of the transcription function of the speechText-API
+transcription = st() 
+splitedText = transcription.split("\n") #split transcriped text into array
+myText = str(splitedText[2]) #read text part of array and save as string
+print(myText) 
 
-newText = text.split("\n") #einzelne Zeilen in Arrays packen
-cola = str(newText[2]) #dritte Stelle aus dem Array speichern
-print("der Print Cola")
-print(cola) #funktioniert.
+print("Text wird Analysiert") 
 
-npl(cola)
+#call analysing function of naturalLanguageUnderstanding-API and save result
+results = npl(myText)
+
+#start of an new TCP connection to send the results 
+print("[Reconnect] Server is opening ne connection...")  
+server.listen()  
+print(f"[LISTENING] Server is listening on {ADDR}")   
+conn, addr = server.accept()
+print(addr)
+
+#declaration of sendAnswer function that sends answer to client and ends the connection
+def sendAnswer(myText):
+    
+    print('Sending answer')
+    msg = bytearray(myText, 'utf-8')
+    print(msg)
+    conn.sendall(msg)
+    print('Send completed')
+    conn.close()
+
+sendAnswer(myText)
